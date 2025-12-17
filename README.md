@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="https://raw.githubusercontent.com/henriqueoldev/javamusicplayer/master/assets/icon_128.png"
+    <img src="https://raw.githubusercontent.com/henriqueoldev/javamusicplayer/master/assets/icon_full.png"
         height="128">
         <h1>Java Music Player</h1>
         <h4>A Simple JavaFX application to play audio media and manage m3u playlists, highly inspired by <a href="https://winamp.com/player/legacy">Winamp</a></h4>
