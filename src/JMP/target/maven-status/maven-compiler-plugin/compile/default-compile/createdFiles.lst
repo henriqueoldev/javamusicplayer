@@ -1,0 +1,14 @@
+module-info.class
+dev/henriqueol/JMP/controller/PlayerController.class
+dev/henriqueol/JMP/controller/PlaylistController.class
+dev/henriqueol/JMP/model/Defaults.class
+dev/henriqueol/JMP/repository/PlaylistRepo.class
+dev/henriqueol/JMP/controller/IconController.class
+dev/henriqueol/JMP/view/MainView.class
+dev/henriqueol/JMP/model/MediaItem.class
+dev/henriqueol/JMP/App.class
+dev/henriqueol/JMP/view/Controls/PlayerControls.class
+dev/henriqueol/JMP/view/Controls/MediaItemView.class
+dev/henriqueol/JMP/model/UIDefaults.class
+dev/henriqueol/JMP/Main.class
+dev/henriqueol/JMP/view/Controls/PlaylistControls.class

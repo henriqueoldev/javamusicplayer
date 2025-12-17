@@ -1,0 +1,101 @@
+*{
+	-primary-color: #161616;
+	-primary-color-light: #202020;
+	-background-color: #141414;
+	-text-color: #ddd;
+}
+
+.root{
+	-fx-background-color: -background-color;
+	-fx-padding: 8px;
+}
+
+.text {
+    -fx-fill: -text-color;
+}
+
+/*Buttons*/
+.button{
+    -fx-background-color: transparent;
+	-fx-cursor: hand;
+	-fx-min-width: 32;
+}
+.button:hover {
+    -fx-background-color: -primary-color;
+}
+
+.button:pressed {
+    -fx-background-color: -primary-color-light;
+}
+
+
+/*Player Controls*/
+.musicSlider .track	{
+	-fx-background-color: transparent;
+	-fx-border-color: -text-color;
+	-fx-border-radius: 25%;
+}
+
+.musicSlider .thumb	{
+	-fx-background-color: -background-color;
+	-fx-border-color: -text-color;
+	-fx-border-radius: 50%;
+}
+
+.controlsBox{
+	-fx-background-color: -primary-color-light;
+	-fx-background-radius: 8 8 0 0;
+}
+
+.controlsBox .button{
+	-fx-background-radius: 8 8 0 0;
+}
+
+.musicSlider .thumb:hover	{
+	-fx-background-color: -primary-color;
+}
+
+.musicSlider .thumb:pressed	{
+	-fx-background-color: -primary-color-light;
+}
+
+/*Playlist Controls*/
+.scroll-pane {
+	-fx-background-color: transparent;
+	-fx-padding: 0 8 0 0;
+}
+.scroll-pane > .viewport {
+	-fx-background-color: transparent;
+}
+.scroll-bar{
+	-fx-background-color: transparent;
+}
+.scroll-bar > .thumb{
+	-fx-background-color: -primary-color;
+	-fx-border-color: -text-color;
+	-fx-border-radius: 8px;
+}
+.playlist-controls{
+	-fx-background-color: -primary-color-light;
+	-fx-padding: 8px;
+	-fx-background-radius: 0 8 8 8;
+}
+
+.playlist-items-panel{
+	-fx-background-color: transparent;
+}
+
+.playlistItem{
+	-fx-padding: 2 2 2 8;
+	-fx-border-color: -text-color;
+	-fx-border-radius: 8px;
+	-fx-cursor: hand;
+}
+
+.playlistItem:hover {
+	-fx-background-color: -primary-color;
+}
+
+.playlistItem .button{
+	-fx-border-radius: 8px;
+}
