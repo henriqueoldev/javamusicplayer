@@ -1,6 +1,9 @@
 package dev.henriqueol.JMP.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import dev.henriqueol.JMP.model.Defaults;
 import dev.henriqueol.JMP.model.MediaItem;
@@ -10,6 +13,7 @@ import dev.henriqueol.JMP.view.Controls.PlaylistControls;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.collections.ObservableList;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -61,12 +65,14 @@ public class PlayerController {
 				mainMediaPlayer.stop();
 				mainMediaPlayer.dispose();
 			}
-			mainMediaPlayer = new MediaPlayer(activeQueue.get(index).getmediaStream());
-			mainMediaPlayer.setOnEndOfMedia(() -> {
-				playMediaItem((index + 1) % (activeQueue.size()));
-		    });
-			play(activeQueue.get(index));
-			activeMediaIndex = index;
+			if (!activeQueue.isEmpty()) {
+				mainMediaPlayer = new MediaPlayer(activeQueue.get(index).getmediaStream());
+				mainMediaPlayer.setOnEndOfMedia(() -> {
+					playMediaItem((index + 1) % (activeQueue.size()));
+			    });
+				play(activeQueue.get(index));
+				activeMediaIndex = index;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -77,10 +83,33 @@ public class PlayerController {
 			if (mainMediaPlayer != null){
 				if (mainMediaPlayer.getMedia() == activeQueue.get(index).getmediaStream()) {
 					mainMediaPlayer.stop();
+					mainMediaPlayer = null;
 					pause();
+					updateMediaInfo();
 				}
 			}
 			activeQueue.remove(index);
+			playlistView.updatePlaylist(activeQueue);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void removeMediaItems(ObservableList<Integer> indices){
+		try {
+			List<Integer> arrayListIndices = new ArrayList<Integer>(indices);
+			Collections.sort(arrayListIndices, Comparator.reverseOrder());
+			for (Integer index : arrayListIndices) {
+				if (mainMediaPlayer != null){
+					if (mainMediaPlayer.getMedia() == activeQueue.get(indices.get(index)).getmediaStream()) {
+						mainMediaPlayer.stop();
+						mainMediaPlayer = null;
+						pause();
+						updateMediaInfo();
+					}
+				}
+				activeQueue.remove(index.intValue());
+			}
 			playlistView.updatePlaylist(activeQueue);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -151,7 +180,11 @@ public class PlayerController {
 	}
 	
 	public void updateMediaInfo() {
-        playerView.updateMediaInfo(mainMediaPlayer.getCurrentTime(), mainMediaPlayer.getTotalDuration());
+		if (mainMediaPlayer != null) {
+			playerView.updateMediaInfo(mainMediaPlayer.getCurrentTime(), mainMediaPlayer.getTotalDuration());
+		} else {
+			playerView.resetMediaInfo();
+		}
 	}
 	
 	public void updateMediaInfo(Duration newTime) {

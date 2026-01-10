@@ -99,6 +99,17 @@ public class PlayerControls implements UIDefaults{
 		}
 	}
 	
+	private void setSlider() {
+		musicSlider.getStyleClass().add("musicSlider");
+		musicSlider.setMaxHeight(Double.MAX_VALUE);
+		HBox.setHgrow(musicSlider, Priority.ALWAYS);
+	}
+	
+	private void setMusicProgress() {
+		musicProgress.getStyleClass().add("musicProgressBar");
+		musicProgress.setMaxWidth(Double.MAX_VALUE);
+	}
+	
 	public void setPlayPauseIcon(boolean setPauseIcon) {
 		ImageView playIcon = new ImageView(icons.getIconImage("play-circle", UI_ICON_SMALL.getWidth(), UI_ICON_SMALL.getHeight()));
 		ImageView pauseIcon = new ImageView(icons.getIconImage("pause-circle", UI_ICON_SMALL.getWidth(), UI_ICON_SMALL.getHeight()));
@@ -139,15 +150,10 @@ public class PlayerControls implements UIDefaults{
 		musicProgress.setProgress(Math.max(mediaTime.toSeconds() / mediaDuration.toSeconds(), .01));
 	}
 	
-	private void setSlider() {
-		musicSlider.getStyleClass().add("musicSlider");
-		musicSlider.setMaxHeight(Double.MAX_VALUE);
-		HBox.setHgrow(musicSlider, Priority.ALWAYS);
-	}
-	
-	private void setMusicProgress() {
-		musicProgress.getStyleClass().add("musicProgressBar");
-		musicProgress.setMaxWidth(Double.MAX_VALUE);
+	public void resetMediaInfo() {
+		timeLabel.setText("00:00/00:00");
+		musicNameLabel.setText("Music Name - Artist - Album");
+		musicProgress.setProgress(-1);
 	}
 	
 	public AnchorPane getControls() {

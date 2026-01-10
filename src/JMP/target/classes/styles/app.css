@@ -72,14 +72,34 @@
 	-fx-border-color: -text-color;
 	-fx-border-radius: 8px;
 }
+
 .playlist-controls{
 	-fx-background-color: -primary-color-light;
 	-fx-padding: 8px;
 	-fx-background-radius: 0 8 8 8;
 }
 
-.playlist-items-panel{
-	-fx-background-color: transparent;
+.playlist-listview{
+	-fx-background-color: -primary-color-light;
+}
+
+.playlist-listview .list-cell{
+	-fx-background-color: -primary-color-light;
+	-fx-cursor: hand;
+}
+
+.playlist-listview .list-cell:selected, .playlist-listview .list-cell:filled:hover{
+	-fx-background-color: -primary-color;
+}
+
+.playlist-listview .scroll-bar:horizontal {
+    -fx-opacity: 0;
+    -fx-padding:-7;
+}
+
+.playlist-listview .scroll-bar > .thumb{
+	-fx-border-color: transparent;
+	-fx-border-radius: 0px;
 }
 
 .playlistItem{

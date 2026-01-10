@@ -38,4 +38,9 @@ public class MediaItem {
 	public void setMediaAlbum(String mediaAlbum) {
 		this.mediaAlbum = mediaAlbum;
 	}
+	
+	@Override
+	public String toString() {
+		return String.format("%s - %s - %s", mediaName, mediaArtist, mediaAlbum);
+	}
 }

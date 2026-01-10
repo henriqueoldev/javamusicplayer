@@ -8,11 +8,15 @@ import dev.henriqueol.JMP.controller.PlayerController;
 import dev.henriqueol.JMP.controller.PlaylistController;
 import dev.henriqueol.JMP.model.MediaItem;
 import dev.henriqueol.JMP.model.UIDefaults;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -33,12 +37,12 @@ public class PlaylistControls implements UIDefaults{
 	private VBox playlistPanel = new VBox();
 	private HBox playlistControls = new HBox();
 	private VBox playlistItems = new VBox(UI_ITEM_GAP);
+	private ListView<MediaItem> playlistQueueListView = new ListView<MediaItem>();
 	
 	public PlaylistControls(PlayerController playerController, PlaylistController playlistController) {
 		this.playlistController = playlistController;
 		this.playerController = playerController;
 		HBox controlsHBox = new HBox();
-		ScrollPane itemsScroll;
 		
 		setButtons();
 		controlsHBox.getChildren().addAll(addItem, openPlaylist, savePlaylist);
@@ -48,13 +52,12 @@ public class PlaylistControls implements UIDefaults{
 		playlistControls.setAlignment(Pos.CENTER);
 		HBox.setHgrow(controlsHBox, Priority.ALWAYS);
 		
+		playlistQueueListView.getStyleClass().add("playlist-listview");
+		playlistQueueListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		playlistItems.getStyleClass().add("playlist-items-panel");
-		
-		itemsScroll = new ScrollPane(playlistItems);
-		itemsScroll.setFitToWidth(true);
 		playlistPanel.getStyleClass().add("playlist-controls");
 		
-		playlistPanel.getChildren().addAll(playlistControls, itemsScroll);
+		playlistPanel.getChildren().addAll(playlistControls, playlistQueueListView);
 		
 		AnchorPane.setLeftAnchor(playlistPanel, 0d);
 		AnchorPane.setRightAnchor(playlistPanel, 0d);
@@ -71,6 +74,32 @@ public class PlaylistControls implements UIDefaults{
 		});
 		openPlaylist.setOnMouseClicked((e) -> {
 			playlistController.loadPlaylist();
+		});
+		
+		//Playlist item Handles
+		playlistQueueListView.setOnMouseClicked((e) -> {
+			if (e.getButton() == MouseButton.PRIMARY) {
+				if (e.getClickCount() == 2) {
+					playMediaAtSelectedIndex();
+				}
+			} else if (e.getButton() == MouseButton.SECONDARY) {
+				
+			}
+		});
+		
+		playlistQueueListView.setOnKeyPressed((e) -> {
+			switch (e.getCode()) {
+				case DELETE: {
+					removeSelectedMedia();
+					break;
+				}
+				case ENTER: {
+					playMediaAtSelectedIndex();
+				}
+				default: {
+					
+				}
+			}
 		});
 	}
 	
@@ -99,14 +128,28 @@ public class PlaylistControls implements UIDefaults{
 		}
 	}
 	
+	private void playMediaAtSelectedIndex() {
+		playerController.playMediaItem(playlistQueueListView.getSelectionModel().getSelectedIndex());
+	}
+	
+	private void removeSelectedMedia() {
+		ObservableList<Integer> selectedIndices = playlistQueueListView.getSelectionModel().getSelectedIndices();
+		int lastIndex = selectedIndices.getLast();
+		playerController.removeMediaItems(selectedIndices);
+		if (!playlistQueueListView.getItems().isEmpty()) {
+			if (lastIndex + 1 < playlistQueueListView.getItems().size()) {
+				playlistQueueListView.getSelectionModel().select(lastIndex);
+			} else {
+				playlistQueueListView.getSelectionModel().selectFirst();
+			}
+		}
+	}
+	
 	public AnchorPane getplaylistControlsPane() {
 		return playlistControlsPane;
 	}
 	
 	public void updatePlaylist(ArrayList<MediaItem> activeQueue) {
-		playlistItems.getChildren().clear();
-		for (int i = 0; i < activeQueue.size(); i++) {
-			playlistItems.getChildren().add(new MediaItemView(activeQueue.get(i), i, playerController).getMusicUINode());
-		}
+		playlistQueueListView.setItems(FXCollections.observableArrayList(activeQueue));
 	}
 }
