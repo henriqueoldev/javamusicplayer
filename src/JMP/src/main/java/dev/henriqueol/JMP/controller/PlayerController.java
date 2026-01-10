@@ -20,16 +20,20 @@ public class PlayerController {
 	private MediaPlayer mainMediaPlayer;
 	private PlaylistControls playlistView;
 	private PlayerControls playerView;
+	private Timeline playerInfoTimeline;
+	private boolean playerInfoTimelineChanging = false;
 	
 	public PlayerController() {
 		try {
-			final Timeline timeline = new Timeline(new KeyFrame(Duration.millis( 500 ), (e) -> {
+			playerInfoTimeline = new Timeline(new KeyFrame(Duration.millis( 1000 ), (e) -> {
 				if (mainMediaPlayer != null && mainMediaPlayer.getStatus() == MediaPlayer.Status.PLAYING) {
+					playerInfoTimelineChanging = true;
 					updateMediaInfo();
+					playerInfoTimelineChanging = false;
 				}
 			}));
-			timeline.setCycleCount( Animation.INDEFINITE );
-			timeline.play();
+			playerInfoTimeline.setCycleCount( Animation.INDEFINITE );
+			playerInfoTimeline.play();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -104,7 +108,10 @@ public class PlayerController {
 					Stage stage = (Stage) playerView.getControls().getScene().getWindow();
 					stage.setTitle(Defaults.APP_NAME + " " + UIDefaults.TRACK_SEPARATOR + " " + mediaName);
 				}
-				updateMediaInfo();
+				mainMediaPlayer.setOnReady(() -> {
+					playerView.updateSlider(mainMediaPlayer.getMedia().getDuration());
+					updateMediaInfo();
+				});
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -147,11 +154,27 @@ public class PlayerController {
         playerView.updateMediaInfo(mainMediaPlayer.getCurrentTime(), mainMediaPlayer.getTotalDuration());
 	}
 	
+	public void updateMediaInfo(Duration newTime) {
+        playerView.updateMediaInfo(newTime, mainMediaPlayer.getTotalDuration());
+	}
+	
 	public void seekNewTime(Duration newTime){
-		if (mainMediaPlayer.getCurrentTime() != newTime) {
+		if (mainMediaPlayer != null && mainMediaPlayer.getCurrentTime() != newTime) {
 			mainMediaPlayer.seek(newTime);
-			updateMediaInfo();
+			updateMediaInfo(newTime);
 		}
 	}
 	
+	public void pausePlayerInfoTimeline() {
+		playerInfoTimeline.stop();
+		playerInfoTimeline.jumpTo(Duration.ZERO);
+	}
+	
+	public void playPlayerInfoTimeline() {
+		playerInfoTimeline.play();
+	}
+	
+	public boolean isPlayerInfoTimelineUpdating() {
+		return playerInfoTimelineChanging;
+	}
 }

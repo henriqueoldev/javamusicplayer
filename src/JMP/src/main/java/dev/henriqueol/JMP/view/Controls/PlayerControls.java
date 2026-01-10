@@ -6,12 +6,14 @@ import dev.henriqueol.JMP.model.UIDefaults;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
@@ -30,6 +32,7 @@ public class PlayerControls implements UIDefaults{
 	private Button nextBtn = new Button();
 	
 	private Slider musicSlider = new Slider(0, 0, -1);
+	private ProgressBar musicProgress = new ProgressBar();
 	
 	public PlayerControls(PlayerController playerController) {
 		this.playerController = playerController;
@@ -37,6 +40,7 @@ public class PlayerControls implements UIDefaults{
 		VBox vbControlsTime = new VBox(UI_ITEM_GAP);
 		VBox vbNameSlider = new VBox(UI_ITEM_GAP);
 		HBox playerBox = new HBox(UI_ITEM_GAP);
+		StackPane progressPane = new StackPane();
 		
 		setButtons();
 		controlsBox.setAlignment(Pos.CENTER);
@@ -44,11 +48,15 @@ public class PlayerControls implements UIDefaults{
 		controlsBox.getStyleClass().add("controlsBox");
 		vbControlsTime.setAlignment(Pos.CENTER);
 		
+		//Progress
 		setSlider();
 		vbNameSlider.setAlignment(Pos.CENTER);
+		setMusicProgress();
+		progressPane.getChildren().add(musicProgress);
+		progressPane.getChildren().add(musicSlider);
 		
 		vbControlsTime.getChildren().addAll(timeLabel, controlsBox);
-		vbNameSlider.getChildren().addAll(musicNameLabel, musicSlider);
+		vbNameSlider.getChildren().addAll(musicNameLabel, progressPane);
 		
 		playerBox.getChildren().addAll(vbControlsTime, vbNameSlider);
 		HBox.setHgrow(vbNameSlider, Priority.ALWAYS);
@@ -67,15 +75,8 @@ public class PlayerControls implements UIDefaults{
 		nextBtn.setOnMouseClicked((e) -> {
 			playerController.playNext();
 		});
-		musicSlider.setOnMouseDragged((e) -> {
-			if (musicSlider.getValue() > -1) {
-				playerController.seekNewTime(Duration.millis((double) musicSlider.getValue() * 1000));
-			}
-		});
-		musicSlider.setOnMouseClicked((e) -> {
-			if (musicSlider.getValue() > -1) {
-				playerController.seekNewTime(Duration.millis((double) musicSlider.getValue() * 1000));
-			}
+		musicSlider.valueProperty().addListener((e) -> {
+			playerController.seekNewTime(Duration.seconds(musicSlider.getValue()));
 		});
 	}
 	
@@ -111,6 +112,11 @@ public class PlayerControls implements UIDefaults{
 		}
 	}
 	
+	public void updateSlider(Duration mediaTime) {
+		musicSlider.setMax(mediaTime.toSeconds());
+		musicSlider.setValue(0);
+	}
+	
 	public void updateMediaInfo( Duration mediaTime, Duration mediaDuration) {
 		int totalSeconds = (int) mediaDuration.toSeconds() % 60;
 		int totalMinutes = (int) mediaDuration.toMinutes() % 60;
@@ -130,13 +136,18 @@ public class PlayerControls implements UIDefaults{
 			currentTime = String.format("%02d:%02d", currentMinutes, currentSeconds);
 		}
 		timeLabel.setText(String.format("%s/%s", currentTime, totalTime));
-		musicSlider.setMax(mediaDuration.toSeconds());
-		musicSlider.setValue(mediaTime.toSeconds());
+		musicProgress.setProgress(Math.max(mediaTime.toSeconds() / mediaDuration.toSeconds(), .01));
 	}
 	
 	private void setSlider() {
 		musicSlider.getStyleClass().add("musicSlider");
+		musicSlider.setMaxHeight(Double.MAX_VALUE);
 		HBox.setHgrow(musicSlider, Priority.ALWAYS);
+	}
+	
+	private void setMusicProgress() {
+		musicProgress.getStyleClass().add("musicProgressBar");
+		musicProgress.setMaxWidth(Double.MAX_VALUE);
 	}
 	
 	public AnchorPane getControls() {

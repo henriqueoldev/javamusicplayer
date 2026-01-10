@@ -32,14 +32,19 @@
 /*Player Controls*/
 .musicSlider .track	{
 	-fx-background-color: transparent;
-	-fx-border-color: -text-color;
-	-fx-border-radius: 25%;
 }
 
 .musicSlider .thumb	{
-	-fx-background-color: -background-color;
-	-fx-border-color: -text-color;
-	-fx-border-radius: 50%;
+	-fx-background-color: transparent;
+}
+
+.musicProgressBar .track{
+	-fx-background-color: -primary-color-light;
+	-fx-min-width: 10px;
+}
+
+.musicProgressBar{
+	-fx-accent: -text-color;
 }
 
 .controlsBox{
@@ -49,14 +54,6 @@
 
 .controlsBox .button{
 	-fx-background-radius: 8 8 0 0;
-}
-
-.musicSlider .thumb:hover	{
-	-fx-background-color: -primary-color;
-}
-
-.musicSlider .thumb:pressed	{
-	-fx-background-color: -primary-color-light;
 }
 
 /*Playlist Controls*/
