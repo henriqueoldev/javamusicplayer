@@ -39,6 +39,8 @@ public class PlaylistControls implements UIDefaults{
 	private VBox playlistItems = new VBox(UI_ITEM_GAP);
 	private ListView<MediaItem> playlistQueueListView = new ListView<MediaItem>();
 	
+	private PlaylistContextMenu playlistContextMenu = new PlaylistContextMenu();
+	
 	public PlaylistControls(PlayerController playerController, PlaylistController playlistController) {
 		this.playlistController = playlistController;
 		this.playerController = playerController;
@@ -54,6 +56,7 @@ public class PlaylistControls implements UIDefaults{
 		
 		playlistQueueListView.getStyleClass().add("playlist-listview");
 		playlistQueueListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+		playlistQueueListView.setContextMenu(playlistContextMenu);
 		playlistItems.getStyleClass().add("playlist-items-panel");
 		playlistPanel.getStyleClass().add("playlist-controls");
 		
@@ -76,14 +79,26 @@ public class PlaylistControls implements UIDefaults{
 			playlistController.loadPlaylist();
 		});
 		
+		//Playlist Context Menu Handles
+		playlistContextMenu.setOnRemoveAction(() -> {
+			removeSelectedMedia();
+		});
+		playlistContextMenu.setOnAddAction(() -> {
+			addQueueItem();
+		});
+		playlistContextMenu.setOnMoveUpAction(() -> {
+			playerController.moveMediaInQueue(playlistQueueListView.getSelectionModel().getSelectedIndex(), false);
+		});
+		playlistContextMenu.setOnMoveDownAction(() -> {
+			playerController.moveMediaInQueue(playlistQueueListView.getSelectionModel().getSelectedIndex(), true);
+		});
+		
 		//Playlist item Handles
 		playlistQueueListView.setOnMouseClicked((e) -> {
 			if (e.getButton() == MouseButton.PRIMARY) {
 				if (e.getClickCount() == 2) {
 					playMediaAtSelectedIndex();
 				}
-			} else if (e.getButton() == MouseButton.SECONDARY) {
-				
 			}
 		});
 		
@@ -95,6 +110,19 @@ public class PlaylistControls implements UIDefaults{
 				}
 				case ENTER: {
 					playMediaAtSelectedIndex();
+					break;
+				}
+				case DOWN: {
+					if (e.isControlDown()) {
+						playerController.moveMediaInQueue(playlistQueueListView.getSelectionModel().getSelectedIndex(), true);
+					}
+					break;
+				}
+				case UP: {
+					if (e.isControlDown()) {
+						playerController.moveMediaInQueue(playlistQueueListView.getSelectionModel().getSelectedIndex(), false);
+					}
+					break;
 				}
 				default: {
 					
@@ -133,10 +161,10 @@ public class PlaylistControls implements UIDefaults{
 	}
 	
 	private void removeSelectedMedia() {
-		ObservableList<Integer> selectedIndices = playlistQueueListView.getSelectionModel().getSelectedIndices();
-		int lastIndex = selectedIndices.getLast();
-		playerController.removeMediaItems(selectedIndices);
 		if (!playlistQueueListView.getItems().isEmpty()) {
+			ObservableList<Integer> selectedIndices = playlistQueueListView.getSelectionModel().getSelectedIndices();
+			int lastIndex = selectedIndices.getLast();
+			playerController.removeMediaItems(selectedIndices);
 			if (lastIndex + 1 < playlistQueueListView.getItems().size()) {
 				playlistQueueListView.getSelectionModel().select(lastIndex);
 			} else {

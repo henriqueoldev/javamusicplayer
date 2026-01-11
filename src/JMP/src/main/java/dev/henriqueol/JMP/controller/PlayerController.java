@@ -179,6 +179,35 @@ public class PlayerController {
 		return false;
 	}
 	
+	//Terrible job, must fix later
+	public void moveMediaInQueue(int index, boolean moveDown) {
+		if (!activeQueue.isEmpty()) {
+			if (index == activeQueue.size() - 1 && activeQueue.size() > 1) {
+				if (moveDown) {
+					MediaItem item = activeQueue.get(index);
+					activeQueue.remove(index);
+					activeQueue.addFirst(item);
+				} else {
+					Collections.swap(activeQueue, index, index - 1);
+					playlistView.updatePlaylist(activeQueue);
+				}
+			} else if (index == 0 && activeQueue.size() > 1) {
+				if (moveDown) {
+					Collections.swap(activeQueue, index, index + 1);
+					playlistView.updatePlaylist(activeQueue);
+				} else {
+					MediaItem item = activeQueue.get(index);
+					activeQueue.remove(index);
+					activeQueue.add(item);
+				}
+			} else {
+				Collections.swap(activeQueue, index, moveDown ? index + 1 : index - 1);
+				playlistView.updatePlaylist(activeQueue);
+			}
+			playlistView.updatePlaylist(activeQueue);
+		}
+	}
+	
 	public void updateMediaInfo() {
 		if (mainMediaPlayer != null) {
 			playerView.updateMediaInfo(mainMediaPlayer.getCurrentTime(), mainMediaPlayer.getTotalDuration());
