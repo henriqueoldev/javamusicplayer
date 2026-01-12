@@ -18,7 +18,7 @@ public class MainView extends VBox{
 		PlayerControls playerControls = new PlayerControls(playerController);
 		PlaylistControls playlistControls = new PlaylistControls(playerController, playlistController);
 		
-		this.getChildren().addAll(playerControls.getControls(), playlistControls.getplaylistControlsPane());
+		this.getChildren().addAll(playerControls, playlistControls.getplaylistControlsPane());
 		
 		playerController.setPlaylistView(playlistControls);
 		playerController.setPlayerView(playerControls);

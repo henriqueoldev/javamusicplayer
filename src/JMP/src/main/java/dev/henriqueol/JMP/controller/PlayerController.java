@@ -135,7 +135,7 @@ public class PlayerController {
 							mediaItem.getMediaAlbum()
 					);
 					playerView.updateMediaName(mediaName);
-					Stage stage = (Stage) playerView.getControls().getScene().getWindow();
+					Stage stage = (Stage) playerView.getScene().getWindow();
 					stage.setTitle(Defaults.APP_NAME + " " + UIDefaults.TRACK_SEPARATOR + " " + mediaName);
 				}
 				mainMediaPlayer.setOnReady(() -> {

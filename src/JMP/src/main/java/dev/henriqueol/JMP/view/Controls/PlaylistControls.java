@@ -56,12 +56,13 @@ public class PlaylistControls implements UIDefaults{
 		playlistQueueListView.getStyleClass().add("playlist-listview");
 		playlistQueueListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		playlistQueueListView.setContextMenu(playlistContextMenu);
+		VBox.setVgrow(playlistQueueListView, Priority.ALWAYS);
+		
 		playlistItems.getStyleClass().add("playlist-items-panel");
 		playlistPanel.getStyleClass().add("playlist-controls");
 		
 		HBox.setHgrow(playlistTitleLabel, Priority.ALWAYS);
 		playlistTitleLabel.getStyleClass().add("playlist-title");
-		
 		playlistPanel.getChildren().addAll(playlistControls, playlistQueueListView);
 		
 		AnchorPane.setLeftAnchor(playlistPanel, 0d);

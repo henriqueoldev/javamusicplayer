@@ -17,11 +17,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
-public class PlayerControls implements UIDefaults{
+public class PlayerControls extends AnchorPane implements UIDefaults{
 	private IconController icons = new IconController();
 	private PlayerController playerController;
-	
-	private AnchorPane pc = new AnchorPane();
 	HBox controlsBox = new HBox(UI_ICON_GAP);
 	
 	private Label timeLabel = new Label("00:00/00:00");
@@ -61,7 +59,7 @@ public class PlayerControls implements UIDefaults{
 		playerBox.getChildren().addAll(vbControlsTime, vbNameSlider);
 		HBox.setHgrow(vbNameSlider, Priority.ALWAYS);
 		
-		pc.getChildren().add(playerBox);
+		this.getChildren().add(playerBox);
 		AnchorPane.setLeftAnchor(playerBox, 0d);
 		AnchorPane.setRightAnchor(playerBox, 0d);
 		
@@ -154,9 +152,5 @@ public class PlayerControls implements UIDefaults{
 		timeLabel.setText("00:00/00:00");
 		musicNameLabel.setText("Music Name - Artist - Album");
 		musicProgress.setProgress(-1);
-	}
-	
-	public AnchorPane getControls() {
-		return pc;
 	}
 }
