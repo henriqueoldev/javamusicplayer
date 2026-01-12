@@ -14,7 +14,7 @@ import java.util.List;
 import dev.henriqueol.JMP.model.MediaItem;
 
 public class PlaylistRepo {
-	public void saveM3UPlaylistFromMediaList(List<MediaItem> mediaPlaylist, URI filePath) {
+	public void saveM3UPlaylistFromMediaList(String playlistName, List<MediaItem> mediaPlaylist, URI filePath) {
 		try {
 			BufferedWriter bw;
 			String filename = Paths.get(filePath).getFileName().toString();
@@ -28,7 +28,7 @@ public class PlaylistRepo {
 			
 			bw.write("#EXTM3U");
 			bw.newLine();
-			bw.write("#PLAYLIST:"+filename+"");
+			bw.write("#PLAYLIST:"+playlistName+"");
 			bw.newLine();
 			for (MediaItem mediaItem : mediaPlaylist) {
 				bw.newLine();
@@ -79,6 +79,25 @@ public class PlaylistRepo {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
+		}
+	}
+	
+	public String loadPlaylistTitle(File playlistFile) {
+		try {
+			BufferedReader br =  new BufferedReader(new FileReader(playlistFile.getPath()));
+			String line;
+			
+			while((line = br.readLine()) != null) {
+				if (line.startsWith("#PLAYLIST:")) {
+					br.close();
+					return line.replace("#PLAYLIST:", "");
+				}
+			}
+			br.close();
+			return "Playlist";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "Playlist";
 		}
 	}
 }

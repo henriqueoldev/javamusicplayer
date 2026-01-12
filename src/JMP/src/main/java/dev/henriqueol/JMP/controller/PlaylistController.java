@@ -25,6 +25,8 @@ public class PlaylistController {
 	private PlaylistRepo playlistRepository = new PlaylistRepo();
 	private PlayerController playerController;
 	
+	private String activePlaylistTitle = "";
+	
 	public PlaylistController(PlayerController playerController) {
 		this.playerController = playerController;
 	}
@@ -99,7 +101,7 @@ public class PlaylistController {
 		}
 	}
 	
-	public void savePlaylist() {
+	public void savePlaylist(String playlistName) {
 		try {
 			FileChooser fc = new FileChooser();
 			fc.getExtensionFilters()
@@ -108,7 +110,7 @@ public class PlaylistController {
             );
 			File playlistFile = fc.showSaveDialog(null);
 			if (playlistFile != null) {				
-				playlistRepository.saveM3UPlaylistFromMediaList(playerController.getActiveQueue(), playlistFile.toURI());
+				playlistRepository.saveM3UPlaylistFromMediaList(playlistName, playerController.getActiveQueue(), playlistFile.toURI());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -132,10 +134,15 @@ public class PlaylistController {
 						}
 					}
 				}
+				activePlaylistTitle = playlistRepository.loadPlaylistTitle(playlistFile);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public String getActivePlaylistTitle() {
+		return activePlaylistTitle;
 	}
 	
 	private boolean validateFileExtension(File file) {

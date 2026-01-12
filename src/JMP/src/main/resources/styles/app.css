@@ -10,7 +10,7 @@
 	-fx-padding: 8px;
 }
 
-.text {
+.text{
     -fx-fill: -text-color;
 }
 
@@ -57,6 +57,10 @@
 }
 
 /*Playlist Controls*/
+.playlist-title{
+	-fx-background-color: transparent;
+	-fx-text-fill: -text-color;
+}
 .scroll-pane {
 	-fx-background-color: transparent;
 	-fx-padding: 0 8 0 0;

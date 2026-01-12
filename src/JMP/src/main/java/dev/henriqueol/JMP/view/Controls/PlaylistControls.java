@@ -12,9 +12,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
@@ -28,14 +28,14 @@ public class PlaylistControls implements UIDefaults{
 	private IconController icons = new IconController();
 	private AnchorPane playlistControlsPane = new AnchorPane();
 	
-	private Label playlistTitleLabel = new Label("Playlist");
+	private TextField playlistTitleLabel = new TextField("Playlist");
 	
 	private Button addItem = new Button();
 	private Button openPlaylist = new Button();
 	private Button savePlaylist = new Button();
 	
 	private VBox playlistPanel = new VBox();
-	private HBox playlistControls = new HBox();
+	private HBox playlistControls = new HBox(UI_ITEM_GAP);
 	private VBox playlistItems = new VBox(UI_ITEM_GAP);
 	private ListView<MediaItem> playlistQueueListView = new ListView<MediaItem>();
 	
@@ -52,13 +52,15 @@ public class PlaylistControls implements UIDefaults{
 		
 		playlistControls.getChildren().addAll(playlistTitleLabel, controlsHBox);
 		playlistControls.setAlignment(Pos.CENTER);
-		HBox.setHgrow(controlsHBox, Priority.ALWAYS);
 		
 		playlistQueueListView.getStyleClass().add("playlist-listview");
 		playlistQueueListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		playlistQueueListView.setContextMenu(playlistContextMenu);
 		playlistItems.getStyleClass().add("playlist-items-panel");
 		playlistPanel.getStyleClass().add("playlist-controls");
+		
+		HBox.setHgrow(playlistTitleLabel, Priority.ALWAYS);
+		playlistTitleLabel.getStyleClass().add("playlist-title");
 		
 		playlistPanel.getChildren().addAll(playlistControls, playlistQueueListView);
 		
@@ -73,10 +75,11 @@ public class PlaylistControls implements UIDefaults{
 			addQueueItem();
 		});
 		savePlaylist.setOnMouseClicked((e) -> {
-			playlistController.savePlaylist();
+			playlistController.savePlaylist(playlistTitleLabel.getText());
 		});
 		openPlaylist.setOnMouseClicked((e) -> {
 			playlistController.loadPlaylist();
+			playlistTitleLabel.setText(playlistController.getActivePlaylistTitle());
 		});
 		
 		//Playlist Context Menu Handles
