@@ -102,8 +102,7 @@ public class PlayerController {
 			Collections.sort(arrayListIndices, Comparator.reverseOrder());
 			for (Integer index : arrayListIndices) {
 				if (mainMediaPlayer != null){
-					System.out.println(index);
-					if (mainMediaPlayer.getMedia() == activeQueue.get(indices.get(index)).getmediaStream()) {
+					if (mainMediaPlayer.getMedia() == activeQueue.get(index).getmediaStream()) {
 						mainMediaPlayer.stop();
 						mainMediaPlayer = null;
 						pause();

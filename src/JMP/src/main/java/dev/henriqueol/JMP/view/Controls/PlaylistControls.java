@@ -171,7 +171,11 @@ public class PlaylistControls implements UIDefaults{
 		if (!playlistQueueListView.getItems().isEmpty()) {
 			ObservableList<Integer> selectedIndices = playlistQueueListView.getSelectionModel().getSelectedIndices();
 			int lastIndex = selectedIndices.getLast();
-			playerController.removeMediaItems(selectedIndices);
+			if (selectedIndices.size() > 1) {
+				playerController.removeMediaItems(selectedIndices);
+			} else {
+				playerController.removeMediaItem(selectedIndices.getFirst());
+			}
 			if (lastIndex + 1 < playlistQueueListView.getItems().size()) {
 				playlistQueueListView.getSelectionModel().select(lastIndex);
 			} else {
