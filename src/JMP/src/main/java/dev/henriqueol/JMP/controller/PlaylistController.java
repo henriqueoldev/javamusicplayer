@@ -25,7 +25,7 @@ public class PlaylistController {
 	private PlaylistRepo playlistRepository = new PlaylistRepo();
 	private PlayerController playerController;
 	
-	private String activePlaylistTitle = "";
+	private String activePlaylistTitle = "Playlist";
 	
 	public PlaylistController(PlayerController playerController) {
 		this.playerController = playerController;

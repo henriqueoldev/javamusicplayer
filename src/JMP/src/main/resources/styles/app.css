@@ -76,6 +76,15 @@
 	-fx-background-color: transparent;
 	-fx-text-fill: -text-color;
 }
+.playlist-title:focused{
+	-fx-border-color: -text-color;
+	-fx-background-color: -primary-color;
+	-fx-border-radius: 8px;
+	-fx-background-radius: 8px;
+}
+.playlist-title:hover{
+	-fx-background-color: -primary-color;
+}
 .scroll-pane {
 	-fx-background-color: transparent;
 	-fx-padding: 0 8 0 0;
@@ -104,11 +113,11 @@
 
 .playlist-listview .list-cell{
 	-fx-background-color: -primary-color-light;
-	-fx-cursor: hand;
 }
 
 .playlist-listview .list-cell:selected, .playlist-listview .list-cell:filled:hover{
 	-fx-background-color: -primary-color;
+	-fx-cursor: hand;
 }
 
 .playlist-listview .scroll-bar:horizontal {

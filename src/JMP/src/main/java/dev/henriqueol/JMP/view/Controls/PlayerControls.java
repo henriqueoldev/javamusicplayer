@@ -2,6 +2,7 @@ package dev.henriqueol.JMP.view.Controls;
 
 import dev.henriqueol.JMP.controller.IconController;
 import dev.henriqueol.JMP.controller.PlayerController;
+import dev.henriqueol.JMP.model.Defaults;
 import dev.henriqueol.JMP.model.UIDefaults;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -25,7 +26,7 @@ public class PlayerControls extends AnchorPane implements UIDefaults{
 	HBox controlsBox = new HBox(UI_ICON_GAP);
 	
 	private Label timeLabel = new Label("00:00/00:00");
-	private Label musicNameLabel = new Label("Music Name - Artist - Album");
+	private Label musicNameLabel = new Label("");
 	
 	private Button prevBtn = new Button();
 	private Button playPauseBtn = new Button();
@@ -55,6 +56,8 @@ public class PlayerControls extends AnchorPane implements UIDefaults{
 		progressPane.getChildren().add(musicProgress);
 		progressPane.getChildren().add(musicSlider);
 		
+		//Misc
+		updateMediaName(Defaults.getRandomQuote());
 		vbControlsTime.getChildren().addAll(timeLabel, controlsBox);
 		vbNameSlider.getChildren().addAll(musicNameLabel, progressPane);
 		
@@ -99,7 +102,6 @@ public class PlayerControls extends AnchorPane implements UIDefaults{
 						}
 						break;
 					default:
-						keyEvent.consume();
 						break;
 					}
 				});
@@ -179,7 +181,7 @@ public class PlayerControls extends AnchorPane implements UIDefaults{
 	
 	public void resetMediaInfo() {
 		timeLabel.setText("00:00/00:00");
-		musicNameLabel.setText("Music Name - Artist - Album");
+		updateMediaName(Defaults.getRandomQuote());
 		musicProgress.setProgress(-1);
 	}
 }
