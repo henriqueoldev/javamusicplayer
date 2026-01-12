@@ -4,12 +4,14 @@ import dev.henriqueol.JMP.controller.IconController;
 import dev.henriqueol.JMP.controller.PlayerController;
 import dev.henriqueol.JMP.model.UIDefaults;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -75,6 +77,33 @@ public class PlayerControls extends AnchorPane implements UIDefaults{
 		});
 		musicSlider.valueProperty().addListener((e) -> {
 			playerController.seekNewTime(Duration.seconds(musicSlider.getValue()));
+		});
+		
+		//Keyboard interaction handles
+		this.sceneProperty().addListener((e) -> {
+			if (this.getScene() != null) {
+				Scene mainScene = this.getScene();
+				mainScene.addEventFilter(KeyEvent.KEY_PRESSED, (keyEvent) -> {
+					switch (keyEvent.getCode()) {
+					case SPACE:
+						playPauseToggle();
+						break;
+					case RIGHT:
+						if (keyEvent.isControlDown()) {
+							playerController.playNext();
+						}
+						break;
+					case LEFT:
+						if (keyEvent.isControlDown()) {
+							playerController.playPrevious();
+						}
+						break;
+					default:
+						keyEvent.consume();
+						break;
+					}
+				});
+			}
 		});
 	}
 	

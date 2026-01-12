@@ -132,7 +132,7 @@ public class PlaylistControls implements UIDefaults{
 					break;
 				}
 				default: {
-					
+					e.consume();
 				}
 			}
 		});
