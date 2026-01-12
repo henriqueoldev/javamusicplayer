@@ -72,6 +72,7 @@ public class PlayerController {
 			    });
 				play(activeQueue.get(index));
 				activeMediaIndex = index;
+				playlistView.setPlaylistSelectedIndex(index);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -168,6 +169,7 @@ public class PlayerController {
 	public void playPrevious() {
 		if (!activeQueue.isEmpty()) {
 			int previousMediaIndex = (activeMediaIndex - 1) % activeQueue.size();
+			previousMediaIndex = previousMediaIndex < 0 ? activeQueue.size() - 1 : previousMediaIndex;
 			playMediaItem(previousMediaIndex);
 		}
 	}
@@ -182,9 +184,9 @@ public class PlayerController {
 	//Terrible job, must fix later
 	public void moveMediaInQueue(int index, boolean moveDown) {
 		if (!activeQueue.isEmpty()) {
+			MediaItem item = activeQueue.get(index);
 			if (index == activeQueue.size() - 1 && activeQueue.size() > 1) {
 				if (moveDown) {
-					MediaItem item = activeQueue.get(index);
 					activeQueue.remove(index);
 					activeQueue.addFirst(item);
 				} else {
@@ -196,7 +198,6 @@ public class PlayerController {
 					Collections.swap(activeQueue, index, index + 1);
 					playlistView.updatePlaylist(activeQueue);
 				} else {
-					MediaItem item = activeQueue.get(index);
 					activeQueue.remove(index);
 					activeQueue.add(item);
 				}
@@ -205,6 +206,7 @@ public class PlayerController {
 				playlistView.updatePlaylist(activeQueue);
 			}
 			playlistView.updatePlaylist(activeQueue);
+			activeMediaIndex = activeQueue.indexOf(item);
 		}
 	}
 	

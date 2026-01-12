@@ -15,7 +15,8 @@ public class App extends Application implements Defaults {
 
     @Override
     public void start(Stage stage) {
-        var scene = new Scene(new MainView().getPane(), INITIAL_WINDOW_WIDTH, INITIAL_WINDOW_HEIGHT);
+    	MainView mainView = new MainView();
+        Scene scene = new Scene(mainView, INITIAL_WINDOW_WIDTH, INITIAL_WINDOW_HEIGHT);
         scene.getStylesheets().add(getClass().getResource("/styles/app.css").toString());
         
         stage.setTitle(APP_NAME);
@@ -45,6 +46,7 @@ public class App extends Application implements Defaults {
 		}
         
         stage.show();
+        mainView.requestFocus();
     }
 
     public static void main(String[] args) {

@@ -180,4 +180,8 @@ public class PlaylistControls implements UIDefaults{
 	public void updatePlaylist(ArrayList<MediaItem> activeQueue) {
 		playlistQueueListView.setItems(FXCollections.observableArrayList(activeQueue));
 	}
+	
+	public void setPlaylistSelectedIndex(int index) {
+		playlistQueueListView.getSelectionModel().clearAndSelect(index);
+	}
 }

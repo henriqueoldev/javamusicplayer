@@ -9,8 +9,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
-public class MainView{
-	private VBox mainPane = new VBox();
+public class MainView extends VBox{
 	
 	public MainView() {
 		PlayerController playerController = new PlayerController();
@@ -19,17 +18,13 @@ public class MainView{
 		PlayerControls playerControls = new PlayerControls(playerController);
 		PlaylistControls playlistControls = new PlaylistControls(playerController, playlistController);
 		
-		mainPane.getChildren().addAll(playerControls.getControls(), playlistControls.getplaylistControlsPane());
+		this.getChildren().addAll(playerControls.getControls(), playlistControls.getplaylistControlsPane());
 		
 		playerController.setPlaylistView(playlistControls);
 		playerController.setPlayerView(playerControls);
 		
 		VBox.setVgrow(playlistControls.getplaylistControlsPane(), Priority.ALWAYS);
-		AnchorPane.setBottomAnchor(mainPane, 0d);
-		AnchorPane.setTopAnchor(mainPane, 0d);
-	}
-	
-	public VBox getPane(){
-		return mainPane;
+		AnchorPane.setBottomAnchor(this, 0d);
+		AnchorPane.setTopAnchor(this, 0d);
 	}
 }

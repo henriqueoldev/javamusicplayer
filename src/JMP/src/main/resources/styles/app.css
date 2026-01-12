@@ -20,7 +20,7 @@
 	-fx-cursor: hand;
 	-fx-min-width: 32;
 }
-.button:hover {
+.button:hover, .button:focused {
     -fx-background-color: -primary-color;
 }
 
