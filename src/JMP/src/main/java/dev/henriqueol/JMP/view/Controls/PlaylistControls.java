@@ -95,6 +95,9 @@ public class PlaylistControls implements UIDefaults{
 		playlistContextMenu.setOnMoveDownAction(() -> {
 			playerController.moveMediaInQueue(playlistQueueListView.getSelectionModel().getSelectedIndex(), true);
 		});
+		playlistContextMenu.setOnPlayAction(() -> {
+			playMediaAtSelectedIndex();
+		});
 		
 		//Playlist item Handles
 		playlistQueueListView.setOnMouseClicked((e) -> {

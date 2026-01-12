@@ -10,8 +10,23 @@
 	-fx-padding: 8px;
 }
 
+.root.popup {
+    -fx-background-color: transparent;
+}
+
 .text{
     -fx-fill: -text-color;
+}
+
+/*Context Menu*/
+.context-menu {
+    -fx-background-color: -primary-color;
+}
+.context-menu .menu-item {
+    -fx-background-color: transparent;
+}
+.context-menu .menu-item:hover{
+    -fx-background-color: -primary-color-light;
 }
 
 /*Buttons*/
