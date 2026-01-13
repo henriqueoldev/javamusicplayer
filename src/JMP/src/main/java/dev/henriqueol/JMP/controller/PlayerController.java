@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
 
 import dev.henriqueol.JMP.model.Defaults;
 import dev.henriqueol.JMP.model.MediaItem;
@@ -26,6 +27,9 @@ public class PlayerController {
 	private PlayerControls playerView;
 	private Timeline playerInfoTimeline;
 	private boolean playerInfoTimelineChanging = false;
+	
+	private boolean shuffleQueue = false;
+	private int repeatOption = Defaults.REPEAT_ALL;
 	
 	public PlayerController() {
 		try {
@@ -68,7 +72,17 @@ public class PlayerController {
 			if (!activeQueue.isEmpty()) {
 				mainMediaPlayer = new MediaPlayer(activeQueue.get(index).getmediaStream());
 				mainMediaPlayer.setOnEndOfMedia(() -> {
-					playMediaItem((index + 1) % (activeQueue.size()));
+					if (activeMediaIndex == activeQueue.size() - 1) {
+						if (repeatOption == Defaults.REPEAT_NONE) {
+							mainMediaPlayer.stop();
+						} else if (repeatOption == Defaults.REPEAT_ALL) {
+							playMediaItem(0);
+						}
+					} else if (repeatOption == Defaults.REPEAT_ONE) {
+						playMediaItem(activeMediaIndex);
+					} else {
+						playMediaItem((index + 1) % (activeQueue.size()));
+					}
 			    });
 				play(activeQueue.get(index));
 				activeMediaIndex = index;
@@ -161,15 +175,32 @@ public class PlayerController {
 	
 	public void playNext() {
 		if (!activeQueue.isEmpty()) {
-			int nextMediaIndex = (activeMediaIndex + 1) % activeQueue.size();
+			int nextMediaIndex = 0;
+			if (shuffleQueue) {
+				Random rdm = new Random();
+				nextMediaIndex = rdm.nextInt(activeQueue.size());
+				while (nextMediaIndex == activeMediaIndex) {
+					nextMediaIndex = rdm.nextInt(activeQueue.size());
+				}
+			} else {
+				nextMediaIndex = (activeMediaIndex + 1) % activeQueue.size();
+			}
 			playMediaItem(nextMediaIndex);
 		}
 	}
 	
 	public void playPrevious() {
 		if (!activeQueue.isEmpty()) {
-			int previousMediaIndex = (activeMediaIndex - 1) % activeQueue.size();
-			previousMediaIndex = previousMediaIndex < 0 ? activeQueue.size() - 1 : previousMediaIndex;
+			int previousMediaIndex = activeMediaIndex - 1;
+			if (shuffleQueue) {
+				Random rdm = new Random();
+				previousMediaIndex = rdm.nextInt(activeQueue.size());
+				while (previousMediaIndex == activeMediaIndex) {
+					previousMediaIndex = rdm.nextInt(activeQueue.size());
+				}
+			} else {
+				previousMediaIndex = previousMediaIndex < 0 ? activeQueue.size() - 1 : previousMediaIndex;
+			}
 			playMediaItem(previousMediaIndex);
 		}
 	}
@@ -240,5 +271,21 @@ public class PlayerController {
 	
 	public boolean isPlayerInfoTimelineUpdating() {
 		return playerInfoTimelineChanging;
+	}
+	
+	public boolean isShuffleQueue() {
+		return shuffleQueue;
+	}
+
+	public void setShuffleQueue(boolean shuffleQueue) {
+		this.shuffleQueue = shuffleQueue;
+	}
+
+	public int getRepeatOption() {
+		return repeatOption;
+	}
+
+	public void setRepeatOption(int repeatOption) {
+		this.repeatOption = repeatOption;
 	}
 }

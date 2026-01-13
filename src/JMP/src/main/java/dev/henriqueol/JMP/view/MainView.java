@@ -3,6 +3,7 @@ package dev.henriqueol.JMP.view;
 
 import dev.henriqueol.JMP.controller.PlayerController;
 import dev.henriqueol.JMP.controller.PlaylistController;
+import dev.henriqueol.JMP.view.Controls.BottomControls;
 import dev.henriqueol.JMP.view.Controls.PlayerControls;
 import dev.henriqueol.JMP.view.Controls.PlaylistControls;
 import javafx.scene.layout.AnchorPane;
@@ -17,8 +18,9 @@ public class MainView extends VBox{
 		
 		PlayerControls playerControls = new PlayerControls(playerController);
 		PlaylistControls playlistControls = new PlaylistControls(playerController, playlistController);
+		BottomControls bottomControls = new BottomControls(playerController);
 		
-		this.getChildren().addAll(playerControls, playlistControls.getplaylistControlsPane());
+		this.getChildren().addAll(playerControls, playlistControls.getplaylistControlsPane(), bottomControls);
 		
 		playerController.setPlaylistView(playlistControls);
 		playerController.setPlayerView(playerControls);

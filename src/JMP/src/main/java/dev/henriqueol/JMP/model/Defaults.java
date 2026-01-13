@@ -16,6 +16,11 @@ public interface Defaults {
 	    };
 	public static final double PLAYER_SEEK_SECONDS = 5;
 	
+	//Repeat Options
+	public static final int REPEAT_NONE = 1;
+	public static final int REPEAT_ONE = 2;
+	public static final int REPEAT_ALL = 3;
+	
 	//Just having some fun
 	public static final List<String> characterQuotes = new ArrayList<String>(List.of(
             "I'm ready, let's go!",
