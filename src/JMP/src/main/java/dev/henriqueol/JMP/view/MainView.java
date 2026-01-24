@@ -1,6 +1,7 @@
 package dev.henriqueol.JMP.view;
 
 
+import dev.henriqueol.JMP.controller.ConfigController;
 import dev.henriqueol.JMP.controller.PlayerController;
 import dev.henriqueol.JMP.controller.PlaylistController;
 import dev.henriqueol.JMP.view.Controls.BottomControls;
@@ -12,13 +13,13 @@ import javafx.scene.layout.VBox;
 
 public class MainView extends VBox{
 	
-	public MainView() {
+	public MainView(ConfigController configController) {
 		PlayerController playerController = new PlayerController();
 		PlaylistController playlistController = new PlaylistController(playerController);
 		
 		PlayerControls playerControls = new PlayerControls(playerController);
 		PlaylistControls playlistControls = new PlaylistControls(playerController, playlistController);
-		BottomControls bottomControls = new BottomControls(playerController);
+		BottomControls bottomControls = new BottomControls(playerController, configController);
 		
 		this.getChildren().addAll(playerControls, playlistControls.getplaylistControlsPane(), bottomControls);
 		

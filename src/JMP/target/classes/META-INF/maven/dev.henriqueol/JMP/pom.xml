@@ -9,6 +9,13 @@
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
     <dependencies>
+    	<!-- Source: https://mvnrepository.com/artifact/org.json/json -->
+		<dependency>
+		    <groupId>org.json</groupId>
+		    <artifactId>json</artifactId>
+		    <version>20251224</version>
+		    <scope>compile</scope>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/net.jthink/jaudiotagger -->
 		<dependency>
 		    <groupId>net.jthink</groupId>

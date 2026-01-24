@@ -5,5 +5,8 @@ module dev.henriqueol.JMP {
     
     requires javafx.base;
 	requires javafx.media;
+	
 	requires jaudiotagger;
+	
+	requires org.json;
 }

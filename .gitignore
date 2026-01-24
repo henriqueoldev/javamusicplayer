@@ -1,5 +1,5 @@
-./src/JMP/target
-./src/JMP/dependency-reduced-pom.xml
-./src/JMP/test
-./src/JMP/.settings
-./src/JMP/.project
+src/JMP/target/
+src/JMP/dependency-reduced-pom.xml
+src/JMP/test/
+src/JMP/.settings/
+src/JMP/.project

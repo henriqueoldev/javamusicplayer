@@ -1,5 +1,6 @@
 package dev.henriqueol.JMP;
 
+import dev.henriqueol.JMP.controller.ConfigController;
 import dev.henriqueol.JMP.model.Defaults;
 import dev.henriqueol.JMP.view.MainView;
 import javafx.application.Application;
@@ -15,7 +16,8 @@ public class App extends Application implements Defaults {
 
     @Override
     public void start(Stage stage) {
-    	MainView mainView = new MainView();
+    	ConfigController configController = new ConfigController(getHostServices());
+    	MainView mainView = new MainView(configController);
         Scene scene = new Scene(mainView, INITIAL_WINDOW_WIDTH, INITIAL_WINDOW_HEIGHT);
         scene.getStylesheets().add(getClass().getResource("/styles/app.css").toString());
         
