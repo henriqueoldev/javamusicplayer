@@ -1,0 +1,7 @@
+{
+	AppName: "Java Music Player",
+	AppDescription: "A Simple JavaFX application to play audio media and manage m3u playlists, highly inspired by Winamp.",
+	AppLibs: ["JavaFX", "JAudioTagger", "stleary/JSON-java"],
+	HelpURL: "https://github.com/henriqueoldev/javamusicplayer/wiki",
+	GithubURL: "https://github.com/henriqueoldev/javamusicplayer"
+}
